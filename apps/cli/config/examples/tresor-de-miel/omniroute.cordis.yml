@@ -1,0 +1,51 @@
+# Opt-in route to a self-hosted OmniRoute gateway (https://github.com/diegosouzapw/OmniRoute),
+# the OpenAI-compatible router that aggregates the free tiers of the providers
+# connected in its dashboard. DSH sends Chat Completions requests to it through
+# `dsh-llm-pi-ai`; OmniRoute picks the upstream provider.
+#
+# Environment read at load:
+#   OMNIROUTE_BASE_URL  gateway root ending in /v1 (default http://localhost:20128/v1)
+#   OMNIROUTE_API_KEY   credential reference resolved per request; copy the key
+#                       from OmniRoute's Dashboard → Endpoints into `.env`
+# Nothing here is a secret: the key stays in the credential store or `.env`.
+
+- id: llm-pi-ai
+  config:
+    providers:
+      omniroute:
+        displayName: OmniRoute (modèles gratuits)
+        apiKeyEnv: OMNIROUTE_API_KEY
+        api: openai-completions
+        baseURL: !!js process.env.OMNIROUTE_BASE_URL ?? 'http://localhost:20128/v1'
+        # OmniRoute forwards to many upstreams; keep the request in the plain
+        # OpenAI dialect every one of them accepts.
+        compat:
+          supportsDeveloperRole: false
+          maxTokensField: max_tokens
+        # Free tiers rarely serve more than this; a provider-prefixed entry
+        # below can raise its own capacity.
+        defaultContextWindow: 128000
+        defaultMaxTokens: 8192
+        models:
+          # OmniRoute's zero-config virtual models: the router chooses an
+          # eligible connected provider for each request.
+          - id: auto
+            name: Auto (équilibré)
+          - id: auto/cheap
+            name: Auto · le moins cher
+          - id: auto/fast
+            name: Auto · le plus rapide
+          - id: auto/smart
+            name: Auto · le plus capable
+          - id: auto/coding
+            name: Auto · code
+          # Add provider-prefixed ids exactly as OmniRoute lists them under
+          # GET /v1/models, for example:
+          # - id: groq/llama-3.3-70b-versatile
+          #   contextWindow: 131072
+
+# New sessions start on the gateway's cheapest eligible route.
+- id: agent-default-model
+  config:
+    provider: omniroute
+    model: auto/cheap

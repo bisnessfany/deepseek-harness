@@ -1,0 +1,31 @@
+# Bilingual-pair consistency record for omniroute-n8n.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Chinese blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/user/guide/omniroute-n8n.md
+/connect-omniroute-and-n8n:
+  en: 9b314946fbac843b
+  zh: 559b12bac52f11c0
+/connect-omniroute-and-n8n/what-dsh-does:
+  en: 9c5904f71fa69acb
+  zh: 3d762d2ef1f2b856
+/connect-omniroute-and-n8n/store-the-credentials:
+  en: 4ac8b486a5f6a134
+  zh: 50feb3b6027f901c
+/connect-omniroute-and-n8n/enable-the-overlays:
+  en: 5619150ac0516365
+  zh: 49e7cc11160987a1
+/connect-omniroute-and-n8n/omniroute-setup:
+  en: 58633ef6247638e2
+  zh: 6c6db9f6028e9624
+/connect-omniroute-and-n8n/n8n-mcp-setup:
+  en: 66f055b726065cbf
+  zh: 82df3f4915aa8d9a
+/connect-omniroute-and-n8n/install-the-skills:
+  en: 09f499775dcdb150
+  zh: de741f343fe73bc6
+/connect-omniroute-and-n8n/verify:
+  en: 90507b3d131c2831
+  zh: 95421cc40bd9aeb8
+/connect-omniroute-and-n8n/troubleshooting:
+  en: b4038dc9d92d1d66
+  zh: 583eb6eac85c140d

@@ -194,6 +194,14 @@ const homeAndGuide = pairedPages([
     section: { root: '集成', en: 'Integrations' },
     order: 1,
   },
+  {
+    source: 'docs/user/guide/omniroute-n8n.md',
+    route: 'guide/omniroute-n8n.md',
+    label: { root: 'OmniRoute 与 n8n', en: 'OmniRoute and n8n' },
+    sidebar: { root: 'zh-guide', en: 'en-guide' },
+    section: { root: '集成', en: 'Integrations' },
+    order: 3,
+  },
 ])
 
 const develop = pairedPages([

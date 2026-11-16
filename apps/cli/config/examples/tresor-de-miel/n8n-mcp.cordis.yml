@@ -1,0 +1,24 @@
+# Opt-in connection to an n8n instance-level MCP server
+# (https://docs.n8n.io/advanced-ai/accessing-n8n-mcp-server/). n8n publishes
+# every workflow whose settings enable MCP access as tools; DSH lists them as
+# `mcp__n8n__<tool>` and calls them through the generic client.
+#
+# Environment read at load:
+#   N8N_BASE_URL   instance root such as https://<name>.app.n8n.cloud
+#                  (default: the Trésor de Miel instance)
+# Credential resolved at connection time:
+#   N8N_MCP_TOKEN  the access token from n8n Settings → Instance-level MCP;
+#                  store it in `.env` or the credential store, never here.
+
+- insert:
+    - id: n8n-mcp
+      name: '@deepseek-ai/dsh-mcp-client'
+      config:
+        serverName: n8n
+        transport: streamable-http
+        url: !!js (process.env.N8N_BASE_URL ?? 'https://bisnessfany.app.n8n.cloud').replace(/\/+$/, '') + '/mcp-server/http'
+        headers:
+          Authorization: 'Bearer ${credential:N8N_MCP_TOKEN}'
+        expandTemplates: true
+        # Video renders wait about 150 seconds inside n8n before answering.
+        toolCallTimeoutMs: 300000
